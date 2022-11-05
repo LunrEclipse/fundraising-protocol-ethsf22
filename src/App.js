@@ -7,9 +7,11 @@ import "./index.css";
 import Post from './views/post';
 import Profile from './views/profile';
 import Home from './views/home';
-import { HStack, VStack, Box, Stack, Text, Button, Image, extendTheme, ChakraProvider } from "@chakra-ui/react";
+import { HStack, VStack, Box, Stack, Text, Button, Image, extendTheme, ChakraProvider, Flex } from "@chakra-ui/react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {useAccount} from 'wagmi';
+import { useEnsName } from 'wagmi'
+import { useEnsAvatar } from 'wagmi'
 import { BellIcon } from '@chakra-ui/icons'
 import PinkBlob from './pink.png';
 import PurpleBlob from './purple.png';
@@ -56,7 +58,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const {isConnected} = useAccount();
+  const {isConnected, address} = useAccount();
+  const ensName = useEnsName({
+    address: address,
+    chainId: 1,
+})
+const ensAvatar = useEnsAvatar({
+    address: address,
+    chainId: 1,
+})
   return (
     <>
       <VStack
@@ -106,7 +116,7 @@ function App() {
                         textColor="white"
                         fontStyle= {"bold"}
                         fontSize= "15px"
-                        height = "40px"
+                        height = "30px"
                         width = "110px"
                         backgroundColor={"black"}
                         borderRadius = "10"
@@ -119,15 +129,38 @@ function App() {
                         cursor = {"pointer"}>
                           Create Post
                       </Button>
-                      <Stack
+                      <Button
+                        marginLeft = "15px"
+                        textColor="white"
+                        fontStyle= {"bold"}
+                        fontSize= "15px"
+                        height = "30px"
+                        width = "110px"
+                        backgroundColor={"black"}
+                        borderRadius = "10"
+                        border = "none"
                         onClick={
                           () => {
                             window.location.href = "/profile";
                           }
-                        }>
-                        <ConnectButton chainStatus={'none'}
-                        showBalance = {false}/>
-                      </Stack>
+                        }
+                        cursor = {"pointer"}>
+                          <Flex
+                            align={'center'}>
+                            <Image
+                                borderRadius="full"
+                                boxSize="20px"
+                                src={ensAvatar.data}
+                                fallbackSrc="https://464911102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/collections%2F2TjMAeHSzwlQgcOdL48E%2Ficon%2FKWP0gk2C6bdRPliWIA6o%2Fens%20transparent%20background.png?alt=media&token=bd28b063-5a75-4971-890c-97becea09076"
+                            />
+                            <Text
+                            paddingLeft={'5px'}
+                            fontSize = "10px"
+                            >
+                                {ensName.data ? ensName.data : address.split('').slice(0, 6).join('') + '...'}
+                            </Text>
+                        </Flex>
+                      </Button>
                     </HStack>
                   ) : (
                     <HStack>

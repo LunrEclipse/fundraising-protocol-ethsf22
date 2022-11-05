@@ -9,7 +9,8 @@ function Profile() {
             spacing = {30}
             direction = 'column'>
             <HStack
-                justifyContent={'space-between'}>
+                justifyContent={'space-between'}
+                zIndex = {2}>
                 <Text
                 fontSize = "50px"
                 fontWeight = "bold"
