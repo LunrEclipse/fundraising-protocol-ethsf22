@@ -69,6 +69,14 @@ contract Fundraiser is ReentrancyGuard{
         return yourPosts;
     }
 
+    function getYourContributions() public view returns(uint256) {
+        return contributions[msg.sender];
+    }
+
+    function getYourProfit() public view returns(uint256) {
+        return profit[msg.sender];
+    }
+
 
 
 }
