@@ -12,45 +12,50 @@ contract Fundraiser is ReentrancyGuard{
 
     Counters.Counter private _postsId;
     Post[] public posts;
-    uint256 public royalty = 5;
+    uint256 public royalty = 29;
     mapping(address => uint256) public contributions;
     mapping(address => uint256) public profit;
+    mapping(uint256 => mapping(address => uint256)) public postContributions;
+    mapping(uint256 => mapping(address => uint256)) public postEarnings;
 
     struct Post {
         string ipfsLink;
         address payable author;
         uint256 timestamp;
-        uint256 amount;
+        uint256 total;
         uint256 id;
-        uint256 fundraisedAmount;
         address payable[] backers;
     }
 
     constructor() {
     }
 
-    function createPost(string memory _ipfsLink, uint256 _amount) public payable nonReentrant{
-        require(_amount > 0, "You need to set a price greater than 0");
+    function createPost(string memory _ipfsLink) public payable nonReentrant{
         _postsId.increment();
         uint256 newPostId = _postsId.current();
-        Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, _amount, newPostId, 0, new address payable[](0));
+        Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, 0, newPostId, new address payable[](0));
         posts.push(newPost);
     }
 
     function sharePost(uint256 _id) public payable nonReentrant{
         require(_id > 0 && _id <= posts.length, "Post does not exist");
         Post storage post = posts[_id];
-        require(msg.value >= post.amount, "You need to send more Ether");
-        uint256 amountToAuthor = post.amount.mul(100 - royalty).div(100);
+        require(msg.value > 0, "You need to send some Eth");
+        uint256 amountToAuthor = msg.value.mul(1000 - royalty).div(1000);
         post.author.transfer(amountToAuthor);
-        post.fundraisedAmount = post.fundraisedAmount.add(amountToAuthor);
-        uint256 amountToBackers = post.amount.mul(royalty).div(100);
+        post.total = post.total.add(amountToAuthor);
+
+        uint256 amountToBackers = post.total.mul(royalty).div(1000);
         for (uint256 i = 0; i < post.backers.length; i++) {
-            post.backers[i].transfer(amountToBackers.div(post.backers.length));
-            profit[post.backers[i]] = profit[post.backers[i]].add(amountToBackers.div(post.backers.length));
+            uint256 amountToTransfer = amountToBackers.mul(postContributions[_id][post.backers[i]]).div(post.total);
+            amountToBackers.sub(amountToTransfer);
+            postEarnings[_id][post.backers[i]] = postEarnings[_id][post.backers[i]].add(amountToTransfer);
+            post.backers[i].transfer(amountToTransfer);
         }
         post.backers.push(payable(msg.sender));
         contributions[msg.sender] = contributions[msg.sender].add(msg.value);
+        postContributions[_id][msg.sender] = postContributions[_id][msg.sender].add(msg.value);
+        post.author.transfer(amountToBackers);
     }
 
     function getAllPosts() public view returns (Post[] memory) {
@@ -75,6 +80,10 @@ contract Fundraiser is ReentrancyGuard{
 
     function getYourProfit() public view returns(uint256) {
         return profit[msg.sender];
+    }
+
+    function getYourEarnings(uint256 _id) public view returns (uint256) {
+        return postEarnings[_id][msg.sender];
     }
 
 
