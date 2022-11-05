@@ -1,5 +1,5 @@
 import { Text, Flex } from '@chakra-ui/react'
-function individualPost(props) {
+function homePost(props) {
     return (
         <Flex>
             <Text fontSize='50px'>
@@ -9,4 +9,4 @@ function individualPost(props) {
         </Flex>
     );
     }
-export default individualPost;
+export default homePost;
