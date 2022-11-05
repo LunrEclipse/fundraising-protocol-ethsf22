@@ -7,6 +7,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
   RainbowKitProvider,
+  midnightTheme,
 } from '@rainbow-me/rainbowkit';
 import {
   chain,
@@ -48,7 +49,7 @@ const livepeerClient = createReactClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} theme = {midnightTheme()}>
         <LivepeerConfig client={livepeerClient}>
             <App />
         </LivepeerConfig>
