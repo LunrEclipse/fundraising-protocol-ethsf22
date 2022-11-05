@@ -38,13 +38,14 @@ function App() {
   const {isConnected} = useAccount();
   return (
     <>
-      <VStack>
+      <VStack
+        backgroundColor = {"#FEFDF9"}>
           <Stack
             width="100%"
             height="75px"
             top="0"
             left="0"
-            zIndex="1"
+            zIndex="2"
             borderBottomWidth="1px"
             borderBottomColor="gray.200"
             borderBottomStyle="solid"
@@ -128,7 +129,7 @@ function App() {
         position="fixed"
         top="-200"
         right="-250"
-        zIndex="-1"
+        zIndex="1"
         width="500px"
         height="500px"
       />
@@ -137,7 +138,7 @@ function App() {
         position="fixed"
         bottom="-450"
         right="-450"
-        zIndex="-1"
+        zIndex="1"
         width="1000px"
         height="1000px"
       />
@@ -146,7 +147,7 @@ function App() {
         position="fixed"
         bottom="-150"
         left="-400"
-        zIndex="-1"
+        zIndex="1"
         width="1000px"
         height="1000px"
       />

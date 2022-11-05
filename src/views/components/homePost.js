@@ -88,7 +88,8 @@ function HomePost(props) {
                     borderColor = 'black'
                     backgroundColor = '#E6FC9C'
                     borderStyle={'solid'}
-                    cursor = 'pointer'>
+                    cursor = 'pointer'
+                    zIndex={2}>
                         <Text
                             fontSize = "10px"
                             fontWeight={'bold'}
