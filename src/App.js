@@ -128,7 +128,7 @@ function App() {
         position="fixed"
         top="-200"
         right="-250"
-        zIndex="1"
+        zIndex="-1"
         width="500px"
         height="500px"
       />
@@ -137,7 +137,7 @@ function App() {
         position="fixed"
         bottom="-450"
         right="-450"
-        zIndex="1"
+        zIndex="-1"
         width="1000px"
         height="1000px"
       />
@@ -146,7 +146,7 @@ function App() {
         position="fixed"
         bottom="-150"
         left="-400"
-        zIndex="1"
+        zIndex="-1"
         width="1000px"
         height="1000px"
       />
