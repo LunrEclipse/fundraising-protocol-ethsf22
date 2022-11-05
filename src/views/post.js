@@ -1,5 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Text, Flex } from '@chakra-ui/react'
+import { Text, Flex, Box, Button, Badge} from '@chakra-ui/react'
 import {
     LivepeerConfig,
     createReactClient,
@@ -7,6 +7,8 @@ import {
   } from '@livepeer/react';
   import * as React from 'react';
   import { useDropzone } from 'react-dropzone';
+  import {useState, useCallback, useMemo} from 'react';
+  import { Player, useAsset, useCreateAsset, useAssetMetrics } from '@livepeer/react';
 
 function Post() {
 
@@ -24,6 +26,16 @@ function Post() {
       error: createError,
       uploadProgress,
     } = useCreateAsset();
+
+    const { data: asset, status: assetStatus } = useAsset({
+        assetId: createdAsset?.id,
+        refetchInterval: (asset) =>
+          asset?.status?.phase !== 'ready' ? 5000 : false,
+      });
+    const { data: metrics } = useAssetMetrics({
+        assetId: createdAsset?.id,
+        refetchInterval: 30000,
+      });
  
     const onDrop = useCallback(async (acceptedFiles) => {
         if (acceptedFiles && acceptedFiles.length > 0 && acceptedFiles?.[0]) {

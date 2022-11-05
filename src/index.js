@@ -16,6 +16,11 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import {
+  LivepeerConfig,
+  createReactClient,
+  studioProvider,
+} from '@livepeer/react';
 
 const { chains, provider } = configureChains(
   [chain.polygonMumbai, chain.mainnet],
@@ -33,12 +38,20 @@ const wagmiClient = createClient({
   connectors,
   provider
 });
+const livepeerClient = createReactClient({
+  provider: studioProvider({
+    apiKey: process.env.NEXT_PUBLIC_STUDIO_API_KEY,
+  }),
+});
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-          <App />
+        <LivepeerConfig client={livepeerClient}>
+            <App />
+        </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>
 );
