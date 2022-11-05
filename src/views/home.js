@@ -6,7 +6,7 @@ function Home() {
             <Text fontSize='50px'>
                 Home
             </Text>
-            <ConnectButton />
+            <ConnectButton chainStatus={'none'}/>
         </Flex>
     );
     }

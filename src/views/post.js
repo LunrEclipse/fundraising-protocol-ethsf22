@@ -6,7 +6,7 @@ function Post() {
             <Text fontSize='50px'>
                 Post
             </Text>
-            <ConnectButton />
+            <ConnectButton chainStatus={'none'}/>
         </Flex>
     );
     }

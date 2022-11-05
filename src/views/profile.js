@@ -6,7 +6,7 @@ function Profile() {
             <Text fontSize='50px'>
                 Profile
             </Text>
-            <ConnectButton />
+            <ConnectButton chainStatus={'none'}/>
         </Flex>
     );
     }
