@@ -1,6 +1,19 @@
-require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-waffle");
 
-/** @type import('hardhat/config').HardhatUserConfig */
+//npx hardhat run scripts/deploy.js --network mumbai
+
+require('dotenv').config();
+const { API_URL, PRIVATE_KEY } = process.env;
+
 module.exports = {
-  solidity: "0.8.17",
+  networks : {
+    hardhat: {
+      chainId: 1337
+    },
+    mumbai: {
+      url: API_URL,
+      accounts: [`0x${PRIVATE_KEY}`]
+    },
+  },
+  solidity: "0.8.4",
 };
