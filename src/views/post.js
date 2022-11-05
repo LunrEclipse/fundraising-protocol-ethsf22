@@ -7,7 +7,7 @@ import {
   } from '@livepeer/react';
   import * as React from 'react';
   import { useDropzone } from 'react-dropzone';
-  import {useState, useCallback, useMemo} from 'react';
+  import {useState, useCallback, useMemo, useRef} from 'react';
   import { Player, useAsset, useCreateAsset, useAssetMetrics } from '@livepeer/react';
 
 function Post() {
@@ -62,7 +62,34 @@ function Post() {
         [uploadProgress, asset?.status?.progress],
       );
 
+      const inputRef = useRef(null);
+
+      const handleClick = () => {
+        // 👇️ open file input box on click of other element
+        inputRef.current.click();
+      };
+    
+      const handleFileChange = event => {
+        const fileObj = event.target.files && event.target.files[0];
+        if (!fileObj) {
+          return;
+        }
+    
+        console.log('fileObj is', fileObj);
+    
+        // 👇️ reset file input
+        event.target.value = null;
+    
+        // 👇️ is now empty
+        console.log(event.target.files);
+    
+        // 👇️ can still access file object here
+        console.log(fileObj);
+        console.log(fileObj.name);
+      };
+
     return (
+        /*
         <>
         <Flex>
             <Text fontSize='50px'>
@@ -88,17 +115,33 @@ function Post() {
          {progressFormatted && <Text>{progressFormatted}</Text>}
     
          <Button
+
            onClick={() => {
+
              if (video) {
                createAsset({ name: video.name, file: video });
              }
            }}
-           disabled={!video || createStatus === 'loading'}
+           //disabled={!video || createStatus === 'loading'}
          >
            Upload
          </Button>
        </>
-    );
+       */
+
+
+    <div>
+      <input
+        style={{display: 'none'}}
+        ref={inputRef}
+        type="file"
+        onChange={handleFileChange}
+      />
+
+      <button onClick={handleClick}>Open file upload box</button>
+    </div>
+  );
+
     }
 
 export default Post;
