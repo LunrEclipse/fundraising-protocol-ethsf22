@@ -4,7 +4,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./index.css";
-import Posts from './views/post';
+import Post from './views/post';
 import Profile from './views/profile';
 import Home from './views/home';
 
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/post",
-    element: <Posts />,
+    element: <Post />,
   },
   {
     path: "/profile",
