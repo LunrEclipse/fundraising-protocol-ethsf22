@@ -7,13 +7,34 @@ import "./index.css";
 import Post from './views/post';
 import Profile from './views/profile';
 import Home from './views/home';
-import { HStack, VStack, Box, Stack, Text, Button, Image } from "@chakra-ui/react";
+import { HStack, VStack, Box, Stack, Text, Button, Image, extendTheme, ChakraProvider } from "@chakra-ui/react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {useAccount} from 'wagmi';
 import { BellIcon } from '@chakra-ui/icons'
 import PinkBlob from './pink.png';
 import PurpleBlob from './purple.png';
 import GreenBlob from './green.png';
+const colors = {
+
+  brand: {
+    black: '#151514',
+    lightyellow: '#FEFDF9',
+    white: '#FFFFFF',
+    green: '#E6FC9C',
+    purple:'8E84EF',
+
+  },
+}
+const styles = {
+  global: (props) => ({
+    body:{
+      // bg: props.colorMode === "dark" ? "brand.black" : "brand.lightyellow",
+      bg: "brand.lightyellow",
+      color: "brand.black",
+    },
+  })
+}
+const theme = extendTheme({ colors, styles})
 
 const router = createBrowserRouter([
   {
@@ -121,8 +142,8 @@ function App() {
                 }
             </HStack>
           </Stack>
-        <RouterProvider router={router}>
-        </RouterProvider>
+          <RouterProvider router={router}>
+          </RouterProvider>
       </VStack>
       <Image
         src={PinkBlob}
