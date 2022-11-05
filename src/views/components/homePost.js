@@ -77,7 +77,13 @@ function HomePost(props) {
                     borderRadius = '15px'
                     borderWidth = '1px'
                     borderColor = 'black'
-                    borderStyle={'solid'}>
+                    zIndex = {2}
+                    borderStyle={'solid'}
+                    onChange = {
+                        (e) => {
+                            setDonationAmount(e.target.value);
+                        }
+                    }>
                 </Input>
                 <Button
                     position = {'absolute'}
