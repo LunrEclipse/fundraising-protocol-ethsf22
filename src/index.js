@@ -16,15 +16,6 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import "./index.css";
-import Posts from './views/post';
-import Profile from './views/profile';
-import Home from './views/home';
 
 const { chains, provider } = configureChains(
   [chain.polygonMumbai],
@@ -41,34 +32,13 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider
-})
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/post",
-    element: <Posts />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "*",
-    element: <Navigate to="/" />,
-  }
-]);
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <RouterProvider router={router}>
           <App />
-        </RouterProvider>
       </RainbowKitProvider>
     </WagmiConfig>
 );

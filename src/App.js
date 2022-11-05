@@ -1,16 +1,36 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import "./index.css";
 import Posts from './views/post';
 import Profile from './views/profile';
 import Home from './views/home';
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/post",
+    element: <Posts />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" />,
+  }
+]);
+
 function App() {
   return (
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/post' element={<Posts />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='*' element={<Navigate to='/' />} />
-      </Routes>
+    <RouterProvider router={router}>
+    </RouterProvider>
   );
 }
 

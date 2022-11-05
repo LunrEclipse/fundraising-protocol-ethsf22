@@ -4,7 +4,7 @@ function Post() {
     return (
         <Flex>
             <Text fontSize='50px'>
-                Posts
+                Post
             </Text>
             <ConnectButton />
         </Flex>
