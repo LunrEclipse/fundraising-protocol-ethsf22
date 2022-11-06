@@ -63,7 +63,8 @@ function HomePost(props) {
             justifyContent = 'space-around'
             padding={20}
             spacing = {10}
-            bg='white'>
+            bg='white'
+            zIndex = "2">
             
             <Flex
                 align={'center'}
@@ -167,8 +168,8 @@ function HomePost(props) {
                         </Text>
                         <Image
                             src = {shareIcon}
-                            height = "20px" pr='2rem'>
-                            
+                            height = "20px" pr='2rem'
+                            >
                         </Image>
                 </Button>
             </Flex>

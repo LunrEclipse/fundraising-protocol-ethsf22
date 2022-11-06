@@ -50,7 +50,8 @@ function ProfilePost(props) {
             justifyContent = 'space-around'
             padding={20}
             spacing = {10}
-            bg='white'>
+            bg='white'
+            zIndex = "2">
             
             <Image 
                 src={imageURL}
