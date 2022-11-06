@@ -21,7 +21,9 @@
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.2",
     "framer-motion": "^7.6.4",
+    "https": "^1.0.0",
     "ipfs-http-client": "^59.0.0",
+    "nft.storage": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -30,6 +32,7 @@
     "tus-js-client": "^3.0.1",
     "wagmi": "^0.7.12",
     "web-vitals": "^2.1.4",
+    "web3.storage": "^4.3.0",
     "web3modal": "^1.9.9"
   },
   "scripts": {
