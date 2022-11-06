@@ -24,6 +24,7 @@ contract Fundraiser is ReentrancyGuard{
         address payable author;
         uint256 timestamp;
         uint256 total;
+        uint256 amountReceived;
         uint256 id;
         address payable[] backers;
     }
@@ -33,7 +34,7 @@ contract Fundraiser is ReentrancyGuard{
 
     function createPost(string memory _ipfsLink) public payable nonReentrant{
         uint256 newPostId = _postsId.current();
-        Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, 0, newPostId, new address payable[](0));
+        Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, 0, 0, newPostId, new address payable[](0));
         posts.push(newPost);
         numberOfPosts[msg.sender] = numberOfPosts[msg.sender].add(1);
          _postsId.increment();
@@ -44,6 +45,7 @@ contract Fundraiser is ReentrancyGuard{
         Post storage post = posts[_id];
         require(msg.value > 0, "You need to send some Eth");
         uint256 amountToAuthor = msg.value.mul(1000 - royalty).div(1000);
+        post.amountReceived = post.amountReceived.add(amountToAuthor);
         post.author.transfer(amountToAuthor);
         post.total = post.total.add(amountToAuthor);
 
@@ -58,6 +60,7 @@ contract Fundraiser is ReentrancyGuard{
         contributions[msg.sender] = contributions[msg.sender].add(msg.value);
         postContributions[_id][msg.sender] = postContributions[_id][msg.sender].add(msg.value);
         post.author.transfer(amountToBackers);
+        post.amountReceived = post.amountReceived.add(amountToBackers);
     }
 
     function getAllPosts() public view returns (Post[] memory) {
@@ -91,7 +94,5 @@ contract Fundraiser is ReentrancyGuard{
     function getNumberOfPosts(address _address) public view returns (uint256) {
         return numberOfPosts[_address];
     }
-
-
 
 }
