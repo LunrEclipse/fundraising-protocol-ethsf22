@@ -7,15 +7,26 @@ import "./index.css";
 import Post from './views/post';
 import Profile from './views/profile';
 import Home from './views/home';
+import About from './views/about';
+import Notifications from './views/notifications';
 import { HStack, VStack, Box, Stack, Text, Button, Image, extendTheme, ChakraProvider, Flex } from "@chakra-ui/react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {useAccount} from 'wagmi';
 import { useEnsName } from 'wagmi'
 import { useEnsAvatar } from 'wagmi'
-import { BellIcon } from '@chakra-ui/icons'
+import { QuestionIcon, BellIcon } from '@chakra-ui/icons'
 import PinkBlob from './pink.png';
 import PurpleBlob from './purple.png';
 import GreenBlob from './green.png';
+import { sendNotification } from "@pushprotocol/restapi/src/lib/payloads";
+import * as PushAPI from "@pushprotocol/restapi";
+import * as ethers from "ethers";
+import { NotificationItem, chainNameType } from "@pushprotocol/uiweb";
+
+
+const PK = 'ce23fae1eaf2ab2dc54db3e5550e44845c39796c4dc5fb0b8ddc87657a524b65'; // channel private key
+const Pkey = `0x${PK}`;
+const signer = new ethers.Wallet(Pkey);
 
 const router = createBrowserRouter([
   {
@@ -31,21 +42,61 @@ const router = createBrowserRouter([
     element: <Profile />,
   },
   {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/notifications",
+    element: <Notifications />,
+  },
+  {
     path: "*",
     element: <Navigate to="/" />,
   }
 ]);
-
 function App() {
   const {isConnected, address} = useAccount();
   const ensName = useEnsName({
     address: address,
     chainId: 1,
 })
+const notifications = async() => {
+  await PushAPI.user.getFeeds({
+  user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+  env: 'staging'
+});
+}
 const ensAvatar = useEnsAvatar({
     address: address,
     chainId: 1,
 })
+const sendNotification = async() => {
+  try {
+    const apiResponse = await PushAPI.payloads.sendNotification({
+      signer,
+      type: 3, // target
+      identityType: 2, // direct payload
+      notification: {
+        title: `[SDK-TEST] notification TITLE:`,
+        body: `[sdk-test] notification BODY`
+      },
+      payload: {
+        title: `[sdk-test] payload title`,
+        body: `sample msg body`,
+        cta: '',
+        img: ''
+      },
+      recipients: 'eip155:5:0x84AA61e6e084A0e96Ae35528C87e13c8b0D4Fc4A', // recipient address
+      channel: 'eip155:5:0x84AA61e6e084A0e96Ae35528C87e13c8b0D4Fc4A', // your channel address
+      env: 'staging'
+    });
+    
+    // apiResponse?.status === 204, if sent successfully!
+    console.log('API repsonse: ', apiResponse);
+  } catch (err) {
+    console.error('Error: ', err);
+  }
+}
   return (
     <>
       <VStack
@@ -87,10 +138,22 @@ const ensAvatar = useEnsAvatar({
               {
                   isConnected ? (
                     <HStack spacing={15}>
-                      <Text fontSize="15px">
-                        About
-                      </Text>
-                      <BellIcon/>
+                      <QuestionIcon
+                        onClick={
+                          () => {
+                            window.location.href = "/about";
+                          }
+                        }
+                        w={25}
+                        h={25}/>
+                      <BellIcon
+                        onClick={
+                          () => {
+                            window.location.href = "/notifications";
+                          }
+                        }
+                        w={30}
+                        h={30}/>
                       <Button
                         marginLeft = "15px"
                         textColor="black"
