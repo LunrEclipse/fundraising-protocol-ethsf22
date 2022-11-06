@@ -42,6 +42,7 @@ By using cryptocurrencies as donations and storing all data on chain, FundIt all
 
 
 Best UX:
+
 FundIt was designed with the goal to drive adoption by allowing users to quickly and easily gain value from the site. After landing on the site, users first see posts, showing stories of people that they could resonate with. Only after a user decides to contribute or create a post do they have to connect a wallet. This ensures that users understand the value of FundIt before having to invest a lot of time figuring out wallets. Additionally, FundIt's simple and intuitive UI only displays information that are relevant to users at each stage of the user journey to ensure that the user is not overwhelmed and that the spotlight is on the stories of the individuals, not the UI. 
 
 ## Livepeer
