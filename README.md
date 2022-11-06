@@ -34,9 +34,15 @@ Our project was built using React and Node.js for Frontend as well as EVM smart 
 ## Polygon (Help)
 Smart Contract: https://mumbai.polygonscan.com/address/0x1B41dEE2166D87149d2c30D47ac15A4cfa57Ad83
 
-Public Goods (Explain how someone would benefit from your hack and how it could scale globally) - 
+Best Publlic Goods:
 
-Best UX (What you've done to hack together a MDP)-
+FundIt is fundamentally an app that aims to empower users to make a positive impact on the world by incentivizing users to donate to and expand support networks for those in need. FundIt uses a portion of donations that current centralized platforms (ie. GoFundMe) collects as fees and distributes it among those who have donated to reward supporters for their help. For those in need, FundIt allows them to directly collect donations while potentially exposing them to a larger network by incentivizing sharing. 
+
+By using cryptocurrencies as donations and storing all data on chain, FundIt allows users to transcend the boundaries of governments and focus on supporting individuals. 
+
+
+Best UX:
+FundIt was designed with the goal to drive adoption by allowing users to quickly and easily gain value from the site. After landing on the site, users first see posts, showing stories of people that they could resonate with. Only after a user decides to contribute or create a post do they have to connect a wallet. This ensures that users understand the value of FundIt before having to invest a lot of time figuring out wallets. Additionally, FundIt's simple and intuitive UI only displays information that are relevant to users at each stage of the user journey to ensure that the user is not overwhelmed and that the spotlight is on the stories of the individuals, not the UI. 
 
 ## Livepeer
 Livepeer's easy and intuitive API and SDKs allowed us to quickly pull videos from IPFS and elegantly display them to our frontend. This feature enabled us to build our posting features as well as our feed. 
