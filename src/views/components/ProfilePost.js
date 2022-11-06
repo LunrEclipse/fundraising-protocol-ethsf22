@@ -4,6 +4,7 @@ import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
 import {useEffect, useState} from 'react';
 import {useAccount} from 'wagmi';
+import { Player } from "@livepeer/react";
 const { ethers } = require("ethers");
 
 function ProfilePost(props) {
@@ -33,6 +34,7 @@ function ProfilePost(props) {
 
     const [imageURL, setImageURL] = useState("");
     const [description, setDescription] = useState("");
+    const [vidURL, setVidURL] = useState("");
     const [profit, setProfit] = useState("");
 
     async function loadPost() {
@@ -41,6 +43,10 @@ function ProfilePost(props) {
         let data = await response.json();
         let imageLink = "https://" + data.loc;
         let amount = data.amountReceived ? ethers.utils.formatEther(data.amountReceived) : "0";
+        let vidLink = data.loc;
+        vidLink = vidLink.substring(0, vidLink.length - 14);
+        console.log(vidLink);
+        setVidURL(vidLink);
         setProfit(amount);
         setImageURL(imageLink);
         setDescription(data.description);
@@ -57,11 +63,7 @@ function ProfilePost(props) {
             bg='white'
             zIndex = "2">
             
-            <Image 
-                src={imageURL}
-                width="600px"
-                height="600px"
-            />
+            <Player title={vidURL} src={vidURL} autoPlay muted />
             <HStack
                 justify="space-between">
                 <Flex
