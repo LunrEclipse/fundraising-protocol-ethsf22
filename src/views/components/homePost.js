@@ -102,7 +102,7 @@ function HomePost(props) {
                     textAlign:'center',
                 }}
                 >
-                    {ensName.data}
+                    {ensName.data ? ensName.data : address.split('').slice(0, 6).join('') + '...'}
                 </Text>
             </Flex>
             <Player

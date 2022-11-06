@@ -17,8 +17,13 @@ function Home() {
         abi: ABI.abi,
         functionName: "getAllPosts"
     })
-    const posts = data ? data : []
-    console.log(posts)
+    let posts = data ? data : []
+    let reverse = [];
+    for (let i = posts.length - 1; i >= 0; i--) {
+        reverse.push(posts[i]);
+    }
+    console.log(reverse)
+    posts = reverse
     return (
         <VStack
             alignItems = "center"

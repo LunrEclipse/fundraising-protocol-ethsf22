@@ -1,9 +1,10 @@
-import { Text, Flex, Image, Input, Button, InputLeftAddon, } from '@chakra-ui/react'
+import { Text, Flex, Image, HStack } from '@chakra-ui/react'
 import { useEnsName } from 'wagmi'
 import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
 import {useEffect, useState} from 'react';
 import {useAccount} from 'wagmi';
+const { ethers } = require("ethers");
 
 function ProfilePost(props) {
     const data = props.post
@@ -32,12 +33,15 @@ function ProfilePost(props) {
 
     const [imageURL, setImageURL] = useState("");
     const [description, setDescription] = useState("");
+    const [profit, setProfit] = useState("");
 
     async function loadPost() {
         let link = "https://" + props.post.ipfsLink;
         let response = await fetch(link);
         let data = await response.json();
         let imageLink = "https://" + data.loc;
+        let amount = data.amountReceived ? ethers.utils.formatEther(data.amountReceived) : "0";
+        setProfit(amount);
         setImageURL(imageLink);
         setDescription(data.description);
     }
@@ -58,23 +62,33 @@ function ProfilePost(props) {
                 width="600px"
                 height="600px"
             />
-            <Flex
-                align={'center'}
-                justify = {'left'}>
+            <HStack
+                justify="space-between">
+                <Flex
+                    align={'center'}
+                    justify = {'left'}>
+                    <Text
+                        fontSize = "sm"
+                        fontWeight={'bold'}
+                        marginRight = '4px'
+                        >
+                            {data.backers.length}
+                    </Text>
+                    <Image
+                        src = {shareIcon}
+                        height = "20px"
+                        color='gray.900'>
+                        
+                    </Image>
+                </Flex>
                 <Text
-                    fontSize = "sm"
-                    fontWeight={'bold'}
-                    marginRight = '4px'
-                    >
-                        {data.backers.length}
+                        fontSize = "sm"
+                        fontWeight={'bold'}
+                        marginRight = '4px'
+                        >
+                            {profit} ETH
                 </Text>
-                <Image
-                    src = {shareIcon}
-                    height = "20px"
-                    color='gray.900'>
-                    
-                </Image>
-            </Flex>
+            </HStack>
             <Text
                 marginTop={'-5px'}
                 fontSize = "md"
