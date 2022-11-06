@@ -114,14 +114,15 @@ const ensAvatar = useEnsAvatar({
                       <BellIcon/>
                       <Button
                         marginLeft = "15px"
-                        textColor="white"
+                        textColor="black"
                         fontStyle= {"bold"}
-                        fontSize= "15px"
-                        height = "30px"
-                        width = "110px"
-                        backgroundColor={"black"}
-                        borderRadius = "10"
-                        border = "none"
+                        fontSize= "md"
+                        height = "2rem"
+                        width = "150px"
+                        bg={"white"}
+                        borderRadius = "50px"
+                        border = "solid"
+                        _hover={{bg:'purple.500'}}
                         onClick={
                           () => {
                             window.location.href = "/post";

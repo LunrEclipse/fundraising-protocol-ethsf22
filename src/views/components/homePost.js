@@ -21,7 +21,8 @@ function HomePost(props) {
             direction={'column'}
             justifyContent = 'space-around'
             padding={20}
-            spacing = {10}>
+            spacing = {10}
+            bg='white'>
             
             <Flex
                 align={'center'}
