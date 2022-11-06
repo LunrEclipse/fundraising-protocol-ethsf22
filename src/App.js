@@ -81,6 +81,7 @@ const ensAvatar = useEnsAvatar({
             borderBottomColor="black"
             borderBottomStyle="solid"
             alignItems="center"
+            backgroundColor = {"#FEFDF9"}
           >
             <HStack
               width="90%"
