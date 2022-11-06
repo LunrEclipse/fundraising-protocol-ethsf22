@@ -46,6 +46,9 @@ function ProfilePost(props) {
         let vidLink = data.loc;
         vidLink = vidLink.substring(0, vidLink.length - 14);
         console.log(vidLink);
+        if (amount.length > 8) {
+            amount = amount.substring(0, 8);
+        }
         setVidURL(vidLink);
         setProfit(amount);
         setImageURL(imageLink);

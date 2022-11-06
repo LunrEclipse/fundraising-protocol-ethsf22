@@ -47,20 +47,26 @@ contract Fundraiser is ReentrancyGuard{
         uint256 amountToAuthor = msg.value.mul(1000 - royalty).div(1000);
         post.amountReceived = post.amountReceived.add(amountToAuthor);
         post.author.transfer(amountToAuthor);
-        post.total = post.total.add(amountToAuthor);
 
-        uint256 amountToBackers = post.total.mul(royalty).div(1000);
+        post.total = post.total.add(msg.value);
+        uint256 amountToBackers = msg.value.sub(amountToAuthor);
         for (uint256 i = 0; i < post.backers.length; i++) {
             uint256 amountToTransfer = amountToBackers.mul(postContributions[_id][post.backers[i]]).div(post.total);
-            amountToBackers.sub(amountToTransfer);
+            amountToBackers = amountToBackers.sub(amountToTransfer);
             postEarnings[_id][post.backers[i]] = postEarnings[_id][post.backers[i]].add(amountToTransfer);
-            post.backers[i].transfer(amountToTransfer);
+            if (amountToBackers > 0) {
+                post.backers[i].transfer(amountToTransfer);
+                profit[post.backers[i]] = profit[post.backers[i]].add(amountToTransfer);
+            }
         }
         post.backers.push(payable(msg.sender));
         contributions[msg.sender] = contributions[msg.sender].add(msg.value);
         postContributions[_id][msg.sender] = postContributions[_id][msg.sender].add(msg.value);
-        post.author.transfer(amountToBackers);
-        post.amountReceived = post.amountReceived.add(amountToBackers);
+        if (amountToBackers > 0) {
+            post.author.transfer(amountToBackers);
+            post.amountReceived = post.amountReceived.add(amountToBackers);
+        }
+        posts[_id] = post;
     }
 
     function getAllPosts() public view returns (Post[] memory) {

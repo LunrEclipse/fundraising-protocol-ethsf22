@@ -47,7 +47,7 @@ function Home() {
                     fontSize = "15px"
                     width = "600px"
                     paddingBottom = "20px">
-                        Aroo is taking the middleman out of donations. Support individuals directly while getting rewarded for sharing posts with your circles. 
+                        FundIt is taking the middleman out of donations. Support individuals directly while getting rewarded for sharing posts with your circles. 
                     </Text>
                     <ConnectButton chainStatus={'none'}
                     showBalance = {false}/>

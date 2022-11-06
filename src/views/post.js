@@ -121,7 +121,6 @@ const theme = extendTheme({ colors, styles})
         <Text fontSize='3xl' as='b' pb='2rem' zIndex="2">Create Post</Text>
         <FormControl>
           <FormLabel fontSize='2xl' as='b' zIndex="2">Upload Media</FormLabel>
-          <Text fontSize="md" color='black' zIndex="2">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</Text>
       </FormControl>
       <Input zIndex="2"
       mb='3rem'
@@ -137,7 +136,6 @@ const theme = extendTheme({ colors, styles})
       ></Input>
       <FormControl>
         <FormLabel zIndex="2" fontSize='2xl' as='b'>Description</FormLabel>
-        <Text zIndex="2" fontSize="md" pb='1rem'>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</Text>
         <Textarea zIndex="2"
          _placeholder='Input a description of your video...'
          size="md"

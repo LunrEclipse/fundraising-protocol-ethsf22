@@ -20,18 +20,6 @@ function HomePost(props) {
         chainId: 1,
     })
 
-    const PosterImage = () => {
-        return (
-          <Image
-            src={shareIcon.png}
-            layout="fill"
-            objectFit="cover"
-            priority
-            placeholder="blur"
-          />
-        );
-      };
-
     const ensAvatar = useEnsAvatar({
         address: data.author,
         chainId: 1,

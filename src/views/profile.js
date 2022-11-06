@@ -47,6 +47,9 @@ function Profile() {
         : 0;
         numberOfPosts = data ? data[2]?.toNumber() ?? 0 : 0;
         posts = data ? data[3] : [];
+        if (returns.length > 8) {
+            returns = returns.slice(0, 8)
+        }
     }
     posts = posts.filter(post => post.author === address)
 
