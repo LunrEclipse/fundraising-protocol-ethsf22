@@ -1,7 +1,35 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Text, Flex, VStack, Box, HStack } from '@chakra-ui/react'
 import ProfilePost from './components/ProfilePost';
+import { useContractReads, useProvider } from 'wagmi'
+
+import ABI from '../Fundraiser.json'
+
 function Profile() {
+    const provider = useProvider()
+    const { data, isSuccess, isLoading, error} = useContractReads({
+        contracts: [
+            {
+                address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+                abi: ABI.abi,
+                functionName: "getYourProfit"
+            },
+            {
+                address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+                abi: ABI.abi,
+                functionName: "getYourContributions"
+            },
+            {
+                address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+                abi: ABI.abi,
+                functionName: "getNumberOfPosts"
+            },
+        ]
+    })
+    const returns = data[0]?.toNumber() ?? 0
+    const contributions = data[1]?.toNumber() ?? 0
+    const numberOfPosts = data[2]?.toNumber() ?? 0
+
     return (
         <Flex
             width = "90%"
@@ -35,7 +63,7 @@ function Profile() {
                     align = 'center'>
                         <Text fontSize = "30px"
                             fontWeight = "bold">
-                            Your Posts: 0
+                            Your Posts: {numberOfPosts}
                         </Text>
                 </Flex>
                 <Flex height = {'125px'}
@@ -46,7 +74,7 @@ function Profile() {
                     align = 'center'>
                     <Text fontSize = "30px"
                     fontWeight = "bold">
-                    Your Contributions: 0 ETH
+                    Your Contributions: {contributions} ETH
                 </Text>
                 </Flex>
                 <Flex height = {'125px'}
@@ -57,7 +85,7 @@ function Profile() {
                     align = 'center'>
                     <Text fontSize = "30px"
                         fontWeight = "bold">
-                        Your Returns: 0 ETH
+                        Your Returns: {returns} ETH
                     </Text>
                 </Flex>
             </HStack>

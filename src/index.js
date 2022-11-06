@@ -26,7 +26,7 @@ import {
 const { chains, provider } = configureChains(
   [chain.polygonMumbai, chain.mainnet],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    //alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()
   ]
 );

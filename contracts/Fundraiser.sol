@@ -17,6 +17,7 @@ contract Fundraiser is ReentrancyGuard{
     mapping(address => uint256) public profit;
     mapping(uint256 => mapping(address => uint256)) public postContributions;
     mapping(uint256 => mapping(address => uint256)) public postEarnings;
+    mapping(address => uint256) public numberOfPosts;
 
     struct Post {
         string ipfsLink;
@@ -35,6 +36,7 @@ contract Fundraiser is ReentrancyGuard{
         uint256 newPostId = _postsId.current();
         Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, 0, newPostId, new address payable[](0));
         posts.push(newPost);
+        numberOfPosts[msg.sender] = numberOfPosts[msg.sender].add(1);
     }
 
     function sharePost(uint256 _id) public payable nonReentrant{
@@ -84,6 +86,10 @@ contract Fundraiser is ReentrancyGuard{
 
     function getYourEarnings(uint256 _id) public view returns (uint256) {
         return postEarnings[_id][msg.sender];
+    }
+
+    function getNumberOfPosts() public view returns (uint256) {
+        return numberOfPosts[msg.sender];
     }
 
 
