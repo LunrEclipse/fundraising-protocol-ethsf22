@@ -32,15 +32,15 @@ contract Fundraiser is ReentrancyGuard{
     }
 
     function createPost(string memory _ipfsLink) public payable nonReentrant{
-        _postsId.increment();
         uint256 newPostId = _postsId.current();
         Post memory newPost = Post(_ipfsLink, payable(msg.sender), block.timestamp, 0, newPostId, new address payable[](0));
         posts.push(newPost);
         numberOfPosts[msg.sender] = numberOfPosts[msg.sender].add(1);
+         _postsId.increment();
     }
 
     function sharePost(uint256 _id) public payable nonReentrant{
-        require(_id > 0 && _id <= posts.length, "Post does not exist");
+        require(_id >= 0 && _id < posts.length, "Post does not exist");
         Post storage post = posts[_id];
         require(msg.value > 0, "You need to send some Eth");
         uint256 amountToAuthor = msg.value.mul(1000 - royalty).div(1000);
@@ -76,20 +76,20 @@ contract Fundraiser is ReentrancyGuard{
         return yourPosts;
     }
 
-    function getYourContributions() public view returns(uint256) {
-        return contributions[msg.sender];
+    function getYourContributions(address _address) public view returns(uint256) {
+        return contributions[_address];
     }
 
-    function getYourProfit() public view returns(uint256) {
-        return profit[msg.sender];
+    function getYourProfit(address _address) public view returns(uint256) {
+        return profit[_address];
     }
 
     function getYourEarnings(uint256 _id) public view returns (uint256) {
         return postEarnings[_id][msg.sender];
     }
 
-    function getNumberOfPosts() public view returns (uint256) {
-        return numberOfPosts[msg.sender];
+    function getNumberOfPosts(address _address) public view returns (uint256) {
+        return numberOfPosts[_address];
     }
 
 

@@ -1,12 +1,17 @@
 import { Text, Flex, Image, Input, Button, InputLeftAddon, } from '@chakra-ui/react'
-import {useState } from 'react';
 import { useEnsName } from 'wagmi'
 import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
+import {useEffect, useState} from 'react';
+import {useContractWrite, usePrepareContractWrite, useProvider, useAccount} from 'wagmi';
+import ABI from '../../Fundraiser.json';
+const { ethers } = require("ethers");
 
 function HomePost(props) {
     const data = props.post
-    const [donationAmount, setDonationAmount] = useState(0);
+    const [donationAmount, setDonationAmount] = useState('');
+    const {isConnected, address} = useAccount();
+    const [hasShared, setHasShared] = useState(false);
     const ensName = useEnsName({
         address: data.author,
         chainId: 1,
@@ -15,6 +20,41 @@ function HomePost(props) {
         address: data.author,
         chainId: 1,
     })
+    const id = props.post.id.toNumber()
+
+    useEffect(() => {
+        if (data.author === address) {
+            setHasShared(true)
+        }
+    }, [])
+
+    const { config } = usePrepareContractWrite({
+        address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+        abi: ABI.abi,
+        functionName: "sharePost",
+        args: [id],
+        overrides: {
+            value: ethers.utils.parseEther('0.01'),
+        }
+      })
+    const { data1, isLoading, isSuccess, write } = useContractWrite(config)
+
+    useEffect(() => {
+        loadPost()
+    }, [])
+
+    const [imageURL, setImageURL] = useState("");
+    const [description, setDescription] = useState("");
+
+    async function loadPost() {
+        let link = "https://" + props.post.ipfsLink;
+        let response = await fetch(link);
+        let data = await response.json();
+        let imageLink = "https://" + data.loc;
+        setImageURL(imageLink);
+        setDescription(data.description);
+    }
+
     return (
         <Flex
             border = "solid"
@@ -46,7 +86,7 @@ function HomePost(props) {
                 </Text>
             </Flex>
             <Image 
-                src=""
+                src={imageURL}
                 width="600px"
                 height="600px"
             />
@@ -72,14 +112,13 @@ function HomePost(props) {
                 fontSize = "md"
                 width = "600px"
                 >
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
+                    {description}
             </Text>
             <Flex
                 align={'center'}
                 paddingTop = {'10px'}
                 justify = {'right'}>
                 <Input
-                    type="number"
                     width = '15rem'
                     height = '30px'
                     placeholder='0.00062'
@@ -105,7 +144,18 @@ function HomePost(props) {
                     backgroundColor = '#E6FC9C'
                     borderStyle={'solid'}
                     cursor = 'pointer'
-                    zIndex={2}>
+                    zIndex={2}
+                    disabled = {hasShared}
+                    onClick = {
+                        () => {
+                            write({
+                                recklesslySetUnpreparedOverrides: {
+                                    value: ethers.utils.parseEther(donationAmount),
+                                },
+                            })
+                            setHasShared(true);
+                        }
+                    }>
                         <Text
                             fontSize = "sm"
                             fontWeight={'bold'}

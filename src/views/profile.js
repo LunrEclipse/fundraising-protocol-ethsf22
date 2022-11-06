@@ -1,34 +1,48 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Text, Flex, VStack, Box, HStack, Heading } from '@chakra-ui/react'
 import ProfilePost from './components/ProfilePost';
-import { useContractReads, useProvider } from 'wagmi'
+import { useContractReads, useProvider, useAccount } from 'wagmi'
+const { ethers } = require("ethers");
 
 import ABI from '../Fundraiser.json'
 
 function Profile() {
     const provider = useProvider()
+    const {isConnected, address} = useAccount();
     const { data, isSuccess, isLoading, error} = useContractReads({
         contracts: [
             {
                 address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
                 abi: ABI.abi,
-                functionName: "getYourProfit"
+                functionName: "getYourProfit",
+                args: [address],
             },
             {
                 address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
                 abi: ABI.abi,
-                functionName: "getYourContributions"
+                functionName: "getYourContributions", 
+                args: [address],
             },
             {
                 address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
                 abi: ABI.abi,
-                functionName: "getNumberOfPosts"
+                functionName: "getNumberOfPosts",
+                args: [address],
             },
+            {
+            address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+            abi: ABI.abi,
+            functionName: "getAllPosts"
+            }
         ]
     })
-    const returns = data ? data[0]?.toNumber() ?? 0 : 0
-    const contributions = data ? data[1]?.toNumber() ?? 0 : 0
+    const returns = data ? ethers.utils.formatEther(data[0]?.toString()) : 0
+    const contributions = data ? ethers.utils.formatEther(data[1]?.toString()) : 0
     const numberOfPosts = data ? data[2]?.toNumber() ?? 0 : 0
+    let posts = data ? data[3] : []
+    posts = posts.filter(post => post.author === address)
+
+    console.log(data)
 
     return (
         <Flex
@@ -123,9 +137,12 @@ function Profile() {
             spacing = {30}
             pt='4rem'
             >
-                <ProfilePost/>
-                <ProfilePost/>
-                <ProfilePost/>
+            {posts.map((post, index) => (
+                <ProfilePost
+                    key={index}
+                    post={post}
+                />
+            ))}
             </VStack>
         </Flex>
     );
