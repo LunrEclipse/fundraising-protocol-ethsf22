@@ -1,6 +1,6 @@
 import {
   Box, Button, extendTheme, Flex, FormControl,
-  FormLabel, Input, Text, Textarea, useToast
+  FormLabel, Input, Text, Textarea, useToast, ChakraProvider
 } from '@chakra-ui/react';
 import {useContractWrite, usePrepareContractWrite} from 'wagmi';
 import * as React from 'react';
@@ -105,8 +105,29 @@ import ABI from '../Fundraiser.json'
       })
     }
   }
+  const colors = {
+  brand: {
+    black: '#151514',
+    lightyellow: '#FEFDF9',
+    white: '#FFFFFF',
+    green: '#E6FC9C',
+    purple:'8E84EF',
+
+  },
+}
+const styles = {
+  global: (props) => ({
+    body:{
+      // bg: props.colorMode === "dark" ? "brand.black" : "brand.lightyellow",
+      bg: "brand.lightyellow",
+      color: "brand.black",
+    },
+  })
+}
+const theme = extendTheme({ colors, styles})
 
     return(
+      <ChakraProvider theme={theme}>
       <>
       <Box width='100%' pl='15%' zIndex="2">
         <Flex direction="column" zIndex="2">
@@ -152,5 +173,6 @@ import ABI from '../Fundraiser.json'
       </Flex>
       </Box>
       </>
+      </ChakraProvider>
     );
   }
