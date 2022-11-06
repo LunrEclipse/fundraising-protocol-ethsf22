@@ -65,7 +65,6 @@ function HomePost(props) {
             spacing = {10}
             bg='white'
             zIndex = "2">
-            
             <Flex
                 align={'center'}
                 justify = {'left'}

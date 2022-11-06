@@ -36,10 +36,18 @@ function Profile() {
             }
         ]
     })
-    const returns = data[0] ? ethers.utils.formatEther(data[0]?.toString()) : 0
-    const contributions = data[1] ? ethers.utils.formatEther(data[1]?.toString()) : 0
-    const numberOfPosts = data ? data[2]?.toNumber() ?? 0 : 0
-    let posts = data ? data[3] : []
+    let returns = 0
+    let contributions = 0
+    let numberOfPosts = 0
+    let posts = []
+    if (data !== undefined) {
+        returns = data[0] ? ethers.utils.formatEther(data[0]?.toString()) : 0;
+        contributions = data[1]
+        ? ethers.utils.formatEther(data[1]?.toString())
+        : 0;
+        numberOfPosts = data ? data[2]?.toNumber() ?? 0 : 0;
+        posts = data ? data[3] : [];
+    }
     posts = posts.filter(post => post.author === address)
 
     console.log(data)
