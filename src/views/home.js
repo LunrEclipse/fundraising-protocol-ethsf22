@@ -1,4 +1,4 @@
-import { Text, VStack } from '@chakra-ui/react'
+import { Text, VStack, Heading } from '@chakra-ui/react'
 import {useAccount} from 'wagmi';
 import { useEnsName } from 'wagmi'
 import {ConnectButton} from '@rainbow-me/rainbowkit';
@@ -14,26 +14,25 @@ function Home() {
             alignItems = "center"
             width = "90%"
             overflowY={"scroll"}
-            spacing = {30}>
+            spacing = {30}
+            pb='10rem'>
             {isConnected ? (
-                <Text
-                fontSize = "50px"
-                fontWeight = "bold">
+                <Heading as='h1'>
                     Welcome Back {ensName.data}!
-                </Text>
+                </Heading>
             ) : (
                 <VStack
                     spacing = {-40}>
                     <Text
                     fontSize = "50px"
                     fontWeight = "bold">
-                        A new way to make a difference.
+                        A social media to support each other.
                     </Text>
                     <Text
                     fontSize = "15px"
                     width = "600px"
                     paddingBottom = "20px">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        Aroo is taking the middleman out of donations. Support individuals directly while getting rewarded for sharing posts with your circles. 
                     </Text>
                     <ConnectButton chainStatus={'none'}
                     showBalance = {false}/>

@@ -1,8 +1,8 @@
-import { Text, Flex, Image, Input, Button} from '@chakra-ui/react'
+import { Text, Flex, Image, Input, Button, InputLeftAddon, } from '@chakra-ui/react'
 import {useState } from 'react';
 import { useEnsName } from 'wagmi'
 import { useEnsAvatar } from 'wagmi'
-import shareIcon from './shareicon.png';
+import shareIcon from './share.svg';
 
 function HomePost(props) {
     const [donationAmount, setDonationAmount] = useState(0);
@@ -22,6 +22,7 @@ function HomePost(props) {
             justifyContent = 'space-around'
             padding={20}
             spacing = {10}>
+            
             <Flex
                 align={'center'}
                 justify = {'left'}
@@ -34,7 +35,10 @@ function HomePost(props) {
                 />
                 <Text
                 paddingLeft={'5px'}
-                fontSize = "10px"
+                fontSize = "sm"
+                sx={{
+                    textAlign:'center',
+                }}
                 >
                     {ensName.data}
                 </Text>
@@ -48,7 +52,7 @@ function HomePost(props) {
                 align={'center'}
                 justify = {'left'}>
                 <Text
-                    fontSize = "10px"
+                    fontSize = "sm"
                     fontWeight={'bold'}
                     marginRight = '4px'
                     >
@@ -56,12 +60,14 @@ function HomePost(props) {
                 </Text>
                 <Image
                     src = {shareIcon}
-                    height = "10px">
+                    height = "20px"
+                    color='gray.900'>
+                    
                 </Image>
             </Flex>
             <Text
                 marginTop={'-5px'}
-                fontSize = "10px"
+                fontSize = "md"
                 width = "600px"
                 >
                     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
@@ -71,14 +77,16 @@ function HomePost(props) {
                 paddingTop = {'10px'}
                 justify = {'right'}>
                 <Input
-                    width = '150px'
+                    type="number"
+                    width = '15rem'
                     height = '30px'
-                    placeholder='Eth'
-                    borderRadius = '15px'
+                    placeholder='0.00062'
+                    borderRadius = '50px'
                     borderWidth = '1px'
                     borderColor = 'black'
                     zIndex = {2}
                     borderStyle={'solid'}
+                    pl='1rem'
                     onChange = {
                         (e) => {
                             setDonationAmount(e.target.value);
@@ -88,8 +96,8 @@ function HomePost(props) {
                 <Button
                     position = {'absolute'}
                     height = '35px'
-                    width = '75px'
-                    borderRadius = '15px'
+                    width = '6rem'
+                    borderRadius = '50px'
                     borderWidth = '1px'
                     borderColor = 'black'
                     backgroundColor = '#E6FC9C'
@@ -97,23 +105,27 @@ function HomePost(props) {
                     cursor = 'pointer'
                     zIndex={2}>
                         <Text
-                            fontSize = "10px"
+                            fontSize = "sm"
                             fontWeight={'bold'}
-                            marginRight = '4px'
+                            pr='0.5rem'
+                            pl='2rem'
+                            // marginRight = '4px'
                             >
-                                Share
+                                ETH
                         </Text>
                         <Image
                             src = {shareIcon}
-                            height = "10px">
+                            height = "20px" pr='2rem'>
+                            
                         </Image>
                 </Button>
             </Flex>
             <Text
                 align = {'right'}
-                fontSize = "7px"
+                fontSize = "0.75rem"
+                color = "gray"
                 >
-                    Clicking on share donates to both the poster and other sharers. Learn More.
+                    Clicking on share donates to both the poster and other sharers. <u>Learn More.</u>
             </Text>
         </Flex>
     );
