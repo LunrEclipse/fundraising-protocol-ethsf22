@@ -4,7 +4,10 @@ import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
 import {useEffect, useState} from 'react';
 import {useContractWrite, usePrepareContractWrite, useProvider, useAccount} from 'wagmi';
+import { parseArweaveTxId, parseCid } from "livepeer/media";
 import ABI from '../../Fundraiser.json';
+import { Player } from '@livepeer/react';
+import {useMemo } from 'react';
 const { ethers } = require("ethers");
 
 function HomePost(props) {
@@ -16,6 +19,19 @@ function HomePost(props) {
         address: data.author,
         chainId: 1,
     })
+
+    const PosterImage = () => {
+        return (
+          <Image
+            src={shareIcon.png}
+            layout="fill"
+            objectFit="cover"
+            priority
+            placeholder="blur"
+          />
+        );
+      };
+
     const ensAvatar = useEnsAvatar({
         address: data.author,
         chainId: 1,
@@ -45,12 +61,16 @@ function HomePost(props) {
 
     const [imageURL, setImageURL] = useState("");
     const [description, setDescription] = useState("");
-
+    const [vidURL, setVidURL] = useState("");
     async function loadPost() {
         let link = "https://" + props.post.ipfsLink;
         let response = await fetch(link);
         let data = await response.json();
         let imageLink = "https://" + data.loc;
+        let vidLink = data.loc
+        vidLink = vidLink.substring(0, vidLink.length - 14);
+        console.log(vidLink)
+        setVidURL(vidLink);
         setImageURL(imageLink);
         setDescription(data.description);
     }
@@ -85,10 +105,11 @@ function HomePost(props) {
                     {ensName.data}
                 </Text>
             </Flex>
-            <Image 
-                src={imageURL}
-                width="600px"
-                height="600px"
+            <Player
+                title = {vidURL}
+                src = {vidURL}
+                autoPlay
+                muted
             />
             <Flex
                 align={'center'}
