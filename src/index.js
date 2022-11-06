@@ -40,30 +40,9 @@ const livepeerClient = createReactClient({
     apiKey: process.env.NEXT_PUBLIC_STUDIO_API_KEY,
   }),
 });
-const colors = {
-
-  brand: {
-    black: '#151514',
-    lightyellow: '#FEFDF9',
-    white: '#FFFFFF',
-    green: '#E6FC9C',
-    purple:'8E84EF',
-
-  },
-}
-const styles = {
-  global: (props) => ({
-    body:{
-      // bg: props.colorMode === "dark" ? "brand.black" : "brand.lightyellow",
-      bg: "brand.lightyellow",
-      color: "brand.black",
-    },
-  })
-}
-const theme = extendTheme({ colors, styles})
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ChakraProvider theme={theme}>
+  // <ChakraProvider theme={theme}>
   <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} theme = {midnightTheme({
         accentColor:'#151514',
@@ -74,7 +53,6 @@ root.render(
         </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>
-    </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

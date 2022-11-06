@@ -16,27 +16,6 @@ import { BellIcon } from '@chakra-ui/icons'
 import PinkBlob from './pink.png';
 import PurpleBlob from './purple.png';
 import GreenBlob from './green.png';
-const colors = {
-
-  brand: {
-    black: '#151514',
-    lightyellow: '#FEFDF9',
-    white: '#FFFFFF',
-    green: '#E6FC9C',
-    purple:'8E84EF',
-
-  },
-}
-const styles = {
-  global: (props) => ({
-    body:{
-      // bg: props.colorMode === "dark" ? "brand.black" : "brand.lightyellow",
-      bg: "brand.lightyellow",
-      color: "brand.black",
-    },
-  })
-}
-const theme = extendTheme({ colors, styles})
 
 const router = createBrowserRouter([
   {
