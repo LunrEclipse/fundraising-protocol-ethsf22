@@ -78,7 +78,7 @@ const ensAvatar = useEnsAvatar({
             left="0"
             zIndex="2"
             borderBottomWidth="1px"
-            borderBottomColor="gray.200"
+            borderBottomColor="black"
             borderBottomStyle="solid"
             alignItems="center"
           >
