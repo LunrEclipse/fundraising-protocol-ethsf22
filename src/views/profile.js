@@ -36,8 +36,8 @@ function Profile() {
             }
         ]
     })
-    const returns = data ? ethers.utils.formatEther(data[0]?.toString()) : 0
-    const contributions = data ? ethers.utils.formatEther(data[1]?.toString()) : 0
+    const returns = data[0] ? ethers.utils.formatEther(data[0]?.toString()) : 0
+    const contributions = data[1] ? ethers.utils.formatEther(data[1]?.toString()) : 0
     const numberOfPosts = data ? data[2]?.toNumber() ?? 0 : 0
     let posts = data ? data[3] : []
     posts = posts.filter(post => post.author === address)
