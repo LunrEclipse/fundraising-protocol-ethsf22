@@ -14,7 +14,7 @@ One of the biggest benefits of blockchain technology is peer-to-peer, secure tra
 <br/>
 <br/>
 
-# Why we built it (Add More)
+# Why we built it
 
 We believe that current fundraising platforms, such as GoFundMe, could benefit through better efficiency and transparency that blockchain technology provides.
 
@@ -31,7 +31,7 @@ Our project was built using React and Node.js for Frontend as well as EVM smart 
 # Integrations
 <br/>
 
-## Polygon (Help)
+## Polygon
 Smart Contract: https://mumbai.polygonscan.com/address/0x1B41dEE2166D87149d2c30D47ac15A4cfa57Ad83
 
 Best Publlic Goods:
