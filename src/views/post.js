@@ -2,18 +2,41 @@ import {
   Box, Button, extendTheme, Flex, FormControl,
   FormLabel, Input, Text, Textarea, useToast
 } from '@chakra-ui/react';
-import { useUpdateAsset } from '@livepeer/react';
+import {useContractWrite, usePrepareContractWrite} from 'wagmi';
 import * as React from 'react';
 import axios from 'axios';
 
-const projectKey = process.env.REACT_APP_INFURA_ID;
-const secretId = process.env.REACT_APP_INFURA_KEY;
+const projectKey = process.env.REACT_APP_KEY
+import ABI from '../Fundraiser.json'
 
   export default function Post() {
     let [value, setValue] = React.useState('')
     let [file, setFile] = React.useState(null)
     let [disableUpload, setDisableUpload] = React.useState(false)
+    let [url, setUrl] = React.useState('')
     const toast = useToast()
+
+
+    const { config } = usePrepareContractWrite({
+      address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+      abi: ABI.abi,
+      functionName: "createPost",
+      args:[url]
+    })
+    const { data, isLoading, isSuccess, write } = useContractWrite(config)
+
+    React.useEffect(() => {
+      console.log(isSuccess)
+      if (isSuccess) {  
+        toast({
+          title: "Post created.",
+          description: "Return home to see your post",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    }, [isSuccess])
     
     let handleInputChange = (e) => {
     let inputValue = e.target.value
@@ -22,21 +45,41 @@ const secretId = process.env.REACT_APP_INFURA_KEY;
   
   async function handleMint() {
     if (value !== '' && file !== null) {
-      // setDisableUpload(true)
+      setDisableUpload(true)
       console.log("Uploading to IPFS")
-      let auth = projectKey + ":" + secretId
-      console.log(auth)
-      file["path"] = "/" + file.name
-      console.log(file)
-      axios.post(`https://ipfs.infura.io:5001/api/v0/add`, { file: "/path"}, {
+      axios.post(`https://api.web3.storage/upload`, file, {
         headers: {
-          'Authorization': 'Basic ' + btoa(auth),
-          'Content-Type': file.type
+          'Authorization': 'Bearer ' + projectKey,
         }
       }).then((res) => {
         console.log(res.data)
-      }).catch((err) => {
-        console.log(err)
+        console.log("Upload Description")
+        const data = JSON.stringify({
+          loc: "bafkreifr6ed7lqmrw5f46nvnh4gvdifstfxwh7ktsd6aw7mskvt5sbamry" + ".ipfs.w3s.link",
+          description: value
+        })
+        axios.post(`https://api.web3.storage/upload`, data,  {
+          headers: {
+            'Authorization': 'Bearer ' + projectKey,
+        }
+      }).then((res) => {
+        console.log(res.data)
+        console.log("Upload Complete")
+        const url = res.data + ".ipfs.w3s.link"
+        setUrl(url)
+        toast({
+          title: "Upload Complete",
+          description: "Deploying on chain now...",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        })
+        console.log("Deploying on chain")
+        write()
+        console.log(isLoading)
+        console.log(isSuccess)
+        console.log("Got here")
+      })
       })
       // const options = {
       //   host: 'ipfs.infura.io',
