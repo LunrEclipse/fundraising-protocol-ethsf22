@@ -33,7 +33,7 @@ function Home() {
             pb='10rem'>
             {isConnected ? (
                 <Heading as='h1'>
-                    Welcome Back {ensName.data}!
+                    Welcome Back {ensName.data ? ensName.data : address.split('').slice(0, 6).join('') + '...'}!
                 </Heading>
             ) : (
                 <VStack
