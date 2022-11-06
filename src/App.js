@@ -22,6 +22,7 @@ import { sendNotification } from "@pushprotocol/restapi/src/lib/payloads";
 import * as PushAPI from "@pushprotocol/restapi";
 import * as ethers from "ethers";
 import { NotificationItem, chainNameType } from "@pushprotocol/uiweb";
+import Logo from './FullLogo.svg'
 
 
 const PK = 'ce23fae1eaf2ab2dc54db3e5550e44845c39796c4dc5fb0b8ddc87657a524b65'; // channel private key
@@ -125,15 +126,10 @@ const sendNotification = async() => {
                     window.location.href = "/";
                   }
                 }>
-                <Box backgroundColor="black"
-                borderRadius="100%"
-                width="25px"
-                height="25px"/>
-                <Text fontSize="20px"
-                fontWeight="bold"
-                marginLeft="10px">
-                  ProjectName
-                </Text>
+                <Image
+                  src = {Logo}
+                  width = "85px"
+                  />
               </HStack>
               {
                   isConnected ? (
