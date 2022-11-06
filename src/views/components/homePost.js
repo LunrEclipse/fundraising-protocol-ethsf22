@@ -1,4 +1,4 @@
-import { Text, Flex, Image, Input, Button, InputLeftAddon, } from '@chakra-ui/react'
+import { Text, Flex, Image, Input, Button, InputLeftAddon, useToast } from '@chakra-ui/react'
 import { useEnsName } from 'wagmi'
 import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
@@ -54,6 +54,20 @@ function HomePost(props) {
         }
       })
     const { data1, isLoading, isSuccess, write } = useContractWrite(config)
+
+    const toast = useToast()
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast({
+                title: "Post shared!",
+                description: "Your donation has been received!",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            })
+        }
+    }, [isSuccess])
 
     useEffect(() => {
         loadPost()
@@ -175,6 +189,7 @@ function HomePost(props) {
                                 },
                             })
                             setHasShared(true);
+
                         }
                     }>
                         <Text

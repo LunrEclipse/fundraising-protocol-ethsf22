@@ -42,7 +42,7 @@ function ProfilePost(props) {
         let response = await fetch(link);
         let data = await response.json();
         let imageLink = "https://" + data.loc;
-        let amount = data.amountReceived ? ethers.utils.formatEther(data.amountReceived) : "0";
+        let amount = props.post.amountReceived ? ethers.utils.formatEther(props.post.amountReceived) : "0";
         let vidLink = data.loc;
         vidLink = vidLink.substring(0, vidLink.length - 14);
         console.log(vidLink);
