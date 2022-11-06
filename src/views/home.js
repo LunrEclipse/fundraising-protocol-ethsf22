@@ -3,12 +3,22 @@ import {useAccount} from 'wagmi';
 import { useEnsName } from 'wagmi'
 import {ConnectButton} from '@rainbow-me/rainbowkit';
 import HomePost from './components/HomePost';
+import { useContractRead, useProvider } from 'wagmi'
+import ABI from '../Fundraiser.json'
 function Home() {
     const {isConnected, address} = useAccount();
     const ensName = useEnsName({
         address: address,
         chainId: 1,
     })
+
+    const { data, isSuccess, isLoading, error} = useContractRead({
+        address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
+        abi: ABI.abi,
+        functionName: "getAllPosts"
+    })
+    const posts = data ? data : []
+    console.log(posts)
     return (
         <VStack
             alignItems = "center"
@@ -38,9 +48,13 @@ function Home() {
                     showBalance = {false}/>
                 </VStack>
             )}
-            <HomePost/>
-            <HomePost/>
-            <HomePost/>
+            {posts.map((post, index) => (
+                <HomePost
+                    key = {index}
+                    post = {post}
+                    index = {index}
+                />
+            ))}
         </VStack>
     );
     }

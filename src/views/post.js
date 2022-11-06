@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const projectKey = process.env.REACT_APP_KEY
 import ABI from '../Fundraiser.json'
+import { wait } from '@testing-library/user-event/dist/utils';
 
   export default function Post() {
     let [value, setValue] = React.useState('')
@@ -21,7 +22,7 @@ import ABI from '../Fundraiser.json'
       address: process.env.REACT_APP_FUNDRAISER_ADDRESS,
       abi: ABI.abi,
       functionName: "createPost",
-      args:[url]
+      args: [url],
     })
     const { data, isLoading, isSuccess, write } = useContractWrite(config)
 
@@ -55,7 +56,7 @@ import ABI from '../Fundraiser.json'
         console.log(res.data)
         console.log("Upload Description")
         const data = JSON.stringify({
-          loc: "bafkreifr6ed7lqmrw5f46nvnh4gvdifstfxwh7ktsd6aw7mskvt5sbamry" + ".ipfs.w3s.link",
+          loc: res.data.cid + ".ipfs.w3s.link",
           description: value
         })
         axios.post(`https://api.web3.storage/upload`, data,  {
@@ -65,8 +66,9 @@ import ABI from '../Fundraiser.json'
       }).then((res) => {
         console.log(res.data)
         console.log("Upload Complete")
-        const url = res.data + ".ipfs.w3s.link"
-        setUrl(url)
+        let temp = res.data.cid + ".ipfs.w3s.link"
+        console.log(temp)
+        setUrl(temp )
         toast({
           title: "Upload Complete",
           description: "Deploying on chain now...",
@@ -74,27 +76,11 @@ import ABI from '../Fundraiser.json'
           duration: 9000,
           isClosable: true,
         })
-        console.log("Deploying on chain")
-        write()
-        console.log(isLoading)
-        console.log(isSuccess)
-        console.log("Got here")
+        write({
+          recklesslySetUnpreparedArgs: [temp]
+        })
       })
       })
-      // const options = {
-      //   host: 'ipfs.infura.io',
-      //   port: 5001,
-      //   path: '/api/v0/pin/add?pin=true',
-      //   method: 'POST',
-      //   auth: projectKey + ':' + secretId, 
-      //   file: file 
-      // }
-      // const req = https.request(options, res => {
-      //   console.log(`statusCode: ${res.statusCode}`)
-      //   res.on('data', d => {
-      //     process.stdout.write(d)
-      //   })
-      // })
     } else {
       toast({
         title: 'Invalid Data.',

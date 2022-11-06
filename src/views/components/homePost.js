@@ -5,13 +5,14 @@ import { useEnsAvatar } from 'wagmi'
 import shareIcon from './share.svg';
 
 function HomePost(props) {
+    const data = props.post
     const [donationAmount, setDonationAmount] = useState(0);
     const ensName = useEnsName({
-        address: "0x7B80F95ce3e2BBC9fdF2e1A6B989Db80B7439346",
+        address: data.author,
         chainId: 1,
     })
     const ensAvatar = useEnsAvatar({
-        address: "0x7B80F95ce3e2BBC9fdF2e1A6B989Db80B7439346",
+        address: data.author,
         chainId: 1,
     })
     return (
@@ -57,7 +58,7 @@ function HomePost(props) {
                     fontWeight={'bold'}
                     marginRight = '4px'
                     >
-                        1000
+                        {data.backers.length}
                 </Text>
                 <Image
                     src = {shareIcon}
